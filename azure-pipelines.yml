@@ -14,4 +14,4 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 
 build:
-  project: DockerDotNetCore.sln
+  project: 'DockerDotNetCore.sln'
