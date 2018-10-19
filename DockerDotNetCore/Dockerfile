@@ -1,17 +1,17 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build:2.0 AS build
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
-COPY DockerDotNetCore/DockerDotNetCore.csproj DockerDotNetCore/
-RUN dotnet restore DockerDotNetCore/DockerDotNetCore.csproj
+COPY ["DockerDotNetCore/DockerDotNetCore.csproj", "DockerDotNetCore/"]
+RUN dotnet restore "DockerDotNetCore/DockerDotNetCore.csproj"
 COPY . .
-WORKDIR /src/DockerDotNetCore
-RUN dotnet build DockerDotNetCore.csproj -c Release -o /app
+WORKDIR "/src/DockerDotNetCore"
+RUN dotnet build "DockerDotNetCore.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish DockerDotNetCore.csproj -c Release -o /app
+RUN dotnet publish "DockerDotNetCore.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
