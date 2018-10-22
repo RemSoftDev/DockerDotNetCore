@@ -4,10 +4,11 @@ EXPOSE 80
 
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
-COPY ["/DockerDotNetCore/DockerDotNetCore.csproj", "/DockerDotNetCore/"]
+
+COPY ["DockerDotNetCore.csproj", "DockerDotNetCore/"]
 RUN dotnet restore "DockerDotNetCore/DockerDotNetCore.csproj"
 COPY . .
-WORKDIR "/src/DockerDotNetCore"
+WORKDIR "/src"
 RUN dotnet build "DockerDotNetCore.csproj" -c Release -o /app
 
 FROM build AS publish
